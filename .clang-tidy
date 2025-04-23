@@ -1,0 +1,52 @@
+---
+Checks: >
+  cppcoreguidelines-*,
+  -cppcoreguidelines-avoid-do-while,
+  -cppcoreguidelines-avoid-magic-numbers,
+  misc-*,
+  readability-*,
+  performance-*,
+  portability-*,
+  bugprone-*,
+  modernize-*,
+  clang-analyzer-*,
+  -readability-braces-around-statements,
+  -readability-identifier-length,
+  -readability-magic-numbers,
+  -readability-implicit-bool-conversion,
+  -readability-math-missing-parentheses,
+  -readability-uppercase-literal-suffix,
+  -bugprone-reserved-identifier,
+  -bugprone-easily-swappable-parameters,
+  -modernize-use-nullptr,
+
+# readability-braces-around-statements
+#     我就是宏孩儿。
+
+# readability-identifier-length
+#     可有的简称就是两个字母啊，作为参数很合适吧。
+
+# readability-magic-numbers
+#     典型的一刀切，反正 5 以上就是 namgic number 要写成常量。
+
+# readability-implicit-bool-conversion
+#     哥们别老是误报啊。
+#     if (a == 1 && b == 2) // a, b 为 int
+#     这有啥错？
+
+# readability-math-missing-parentheses
+#     给 a * b + c 加上括号（？）
+
+# readability-uppercase-literal-suffix
+#     你写虚数是写 1 + 2I 的吗？
+
+# bugprone-reserved-identifier
+#     属于是逮着前缀下划线就报了。
+
+# bugprone-easily-swappable-parameters
+#     我一个函数传递几个连续的同类型参数怎么你了？
+
+# 为啥要关 modernize-use-nullptr？因为他善。
+#     哥们给我 C 代码报 warning 这 clang-tidy 咋写的？
+
+FormatStyle: none
