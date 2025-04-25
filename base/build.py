@@ -21,8 +21,8 @@ def main():
   src_dir('src/pico-alloc')
 
 
-@target('ubscan', type='static-lib', platforms=['ia32', 'amd64'])
-def main():
+@target('ubsan', type='static-lib', platforms=['ia32', 'amd64'])
+def main(platform: str):
   add_compile_flags('-DPLOS_BASE=1')
   include('define.h')
-  compile('src/ubscan.c')
+  src_dir('src/ubsan')

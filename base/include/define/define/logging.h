@@ -75,8 +75,8 @@ static __attribute__((nonnull(1))) const char *_log_relative_path_(const char *p
   __INTPTR_TYPE__ i = 0;
   while (path[i] != '\0')
     i++;
-  for (__INTPTR_TYPE__ j = i - 13; j >= 0; j--) {
-    if (_log_memeq_(path + j, "/PicoLogicOS/", 10)) return path + j + 13;
+  for (__INTPTR_TYPE__ j = i - 3; j >= 0; j--) {
+    if (_log_memeq_(path + j, "OS/", 3)) return path + j + 3;
   }
   return path;
 }

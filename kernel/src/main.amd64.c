@@ -19,29 +19,31 @@
 
 static void kernel_main();
 
+#define PLOS_LIMINE_REVISION 3
+
 LIMINE_REQUEST_MARKERS;
 
-LIMINE_REQUEST LIMINE_BASE_REVISION(3);
+LIMINE_REQUEST LIMINE_BASE_REVISION(PLOS_LIMINE_REVISION);
 
 LIMINE_REQUEST struct limine_framebuffer_request fb = {
     .id       = LIMINE_FRAMEBUFFER_REQUEST,
-    .revision = 3,
+    .revision = PLOS_LIMINE_REVISION,
 };
 
 LIMINE_REQUEST struct limine_mp_request mp = {
     .id       = LIMINE_MP_REQUEST,
-    .revision = 3,
+    .revision = PLOS_LIMINE_REVISION,
     .flags    = MASK(0),
 };
 
 LIMINE_REQUEST struct limine_memmap_request mmap = {
     .id       = LIMINE_MEMMAP_REQUEST,
-    .revision = 3,
+    .revision = PLOS_LIMINE_REVISION,
 };
 
 LIMINE_REQUEST struct limine_paging_mode_request pgmode = {
     .id       = LIMINE_PAGING_MODE_REQUEST,
-    .revision = 3,
+    .revision = PLOS_LIMINE_REVISION,
     .mode     = LIMINE_PAGING_MODE_DEFAULT,
     .max_mode = LIMINE_PAGING_MODE_X86_64_5LVL,
     .min_mode = LIMINE_PAGING_MODE_X86_64_4LVL,
@@ -49,18 +51,18 @@ LIMINE_REQUEST struct limine_paging_mode_request pgmode = {
 
 LIMINE_REQUEST struct limine_hhdm_request hhdm = {
     .id       = LIMINE_HHDM_REQUEST,
-    .revision = 3,
+    .revision = PLOS_LIMINE_REVISION,
 };
 
 LIMINE_REQUEST struct limine_stack_size_request ss = {
     .id         = LIMINE_STACK_SIZE_REQUEST,
-    .revision   = 3,
+    .revision   = PLOS_LIMINE_REVISION,
     .stack_size = 65536,
 };
 
 LIMINE_REQUEST struct limine_entry_point_request entry = {
     .id       = LIMINE_ENTRY_POINT_REQUEST,
-    .revision = 3,
+    .revision = PLOS_LIMINE_REVISION,
     .entry    = &kernel_main,
 };
 
@@ -113,9 +115,6 @@ void klog_number16(u64 n) {
   } while (n != 0);
   klog_raw(p);
 }
-
-dlimport byte __plos_direct_map_page_table_start;
-dlimport byte __plos_direct_map_page_table_end;
 
 void print_pt() {
   val pml4 = (PML4E *)(asm_get_cr3() + hhdm.response->offset);
@@ -186,6 +185,10 @@ static void memory_init() {
 #define NORETURN    __attr(noreturn)
 #define RETURNTWICE __attr(return_twice)
 
+__attr(returns_nonnull) __attr(nonnull(1)) void *func(void *a) {
+  return null;
+}
+
 static void kernel_main() {
   asm_cli;
 
@@ -220,10 +223,28 @@ static void kernel_main() {
 
   klog_number(pgmode.response->mode);
 
+  klog_number(INT_MAX + 2);
+  klog_number(INT_MIN - 2);
+  klog_number(INT_MAX * 2);
+
+  func(null);
+
+  __builtin_clz(0);
+
+  char aaa[1];
+  aaa[-1] = '\0';
+
+  klog_number(-INT_MIN);
+
+  int  n = -2;
+  char a[n];
+
   infinite_loop asm_hlt;
 }
 
-void _start() {
+void _start() { // 如果在 linux 下被执行
+  __syscall(1, 1, "Hello World!\n", 13);
+  __syscall(60, 0);
   infinite_loop asm_hlt;
 }
 
