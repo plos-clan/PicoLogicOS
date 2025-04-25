@@ -6,7 +6,7 @@ from ..logging import *
 from ..env import *
 from .. import logging
 from ..target import open_target, close_target, has_target, get_target
-from .platform import open_platform, close_platform, get_platform
+from ..platform import open_platform, close_platform, get_platform
 from . import buildtree
 
 VAILD_NAME = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_-+'

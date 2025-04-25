@@ -13,8 +13,6 @@ add_compile_flags('-fvisibility=hidden')
 
 add_compile_flags('-fsanitize=undefined')
 add_link_flags('-fno-sanitize=undefined')
-add_compile_flags('-fsanitize=pointer-overflow')
-add_link_flags('-fno-sanitize=pointer-overflow')
 
 
 @target('kernel', type='exec', platforms=['ia32', 'amd64'])

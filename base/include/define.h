@@ -6,6 +6,7 @@
 extern "C" {
 #endif // __cplusplus
 #include "define/plos-definitions.h"
+#include "define/asm.h"
 #include "define/config/alloc.h"
 #include "define/config/check.h"
 #include "define/config/data-structure.h"
@@ -43,18 +44,6 @@ extern "C" {
 #include "define/type/bitint.h"
 #include "define/type/complex-bitint.h"
 #include "define/type/addr.h"
-#include "define/asm/asm.h"
-#include "define/asm/cpuid.h"
-#include "define/asm/cr.h"
-#include "define/asm/flags.h"
-#include "define/asm/io.h"
-#include "define/asm/mem.h"
-#include "define/asm/msr.h"
-#include "define/asm/reg.h"
-#include "define/asm/syscall.h"
-#include "define/asm/cpuid/funcs.h"
-#include "define/asm/cpuid/ids.h"
-#include "define/asm/cpuid/macros.h"
 #ifdef __cplusplus
 }
 #endif // __cplusplus

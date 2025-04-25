@@ -16,7 +16,11 @@ int main() {
   // pwm_enable(9);
 
   // *(volatile uint32_t *)MFPR_GPIO00_BASE = (5 << 13) | (2 << 11) | (1 << 6);
-  // *(volatile uint32_t *)MFPR_GPIO47_BASE = (5 << 13) | (2 << 11) | (1 << 6);
+  // *(volatile uint32_t *)MFPR_GPIO49_BASE = (5 << 13) | (2 << 11) | (1 << 6);
+  // *(volatile uint32_t *)MFPR_GPIO74_BASE = (5 << 13) | (2 << 11) | (1 << 6);
+  // *(volatile uint32_t *)MFPR_GPIO75_BASE = (5 << 13) | (2 << 11) | (1 << 6);
+  // *(volatile uint32_t *)MFPR_GPIO77_BASE = (5 << 13) | (2 << 11) | (1 << 6);
+  // *(volatile uint32_t *)MFPR_GPIO91_BASE = (5 << 13) | (2 << 11) | (1 << 6);
 
   for (int i = 0; i < 128; i++) {
     gpio_set_mode(i, true);
@@ -27,6 +31,23 @@ int main() {
   static uint16_t frameBuffer[240 * 240];
 
   st7789_init();
+
+  while (1) {
+    st7789_SetWindow(0, 0, 239, 239);
+    gpio_write(49, 1);
+    for (uint32_t i = 0; i < 240 * 240 * 16; i++) {
+      gpio_write(75, 0);
+      gpio_write(77, 1);
+      gpio_write(75, 1);
+    }
+    st7789_SetWindow(0, 0, 239, 239);
+    gpio_write(49, 1);
+    for (uint32_t i = 0; i < 240 * 240 * 16; i++) {
+      gpio_write(75, 0);
+      gpio_write(77, 0);
+      gpio_write(75, 1);
+    }
+  }
 
   // 设置要显示的区域为整个屏幕
   uart_puts(UART0_BASE, "Setting window...\r\n");

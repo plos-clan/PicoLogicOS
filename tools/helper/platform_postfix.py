@@ -1,6 +1,6 @@
 import os
 from itertools import combinations
-from ..helper import flatten
+from .base import flatten
 
 
 # 列表中内容的组合
@@ -11,7 +11,7 @@ def combinations_of(input_list: list):
   return result
 
 
-def splitext(path: str) -> tuple[str, str]:
+def path_splitext(path: str) -> tuple[str, str]:
   base, ext = os.path.splitext(path)
   return base, ext[1:].lower() if ext else ''
 
@@ -29,10 +29,10 @@ def filter_file_by_postfix(
 
   if extname:
     extname = set(extname)
-    files = [file for file in files if splitext(file)[1] in extname]
+    files = [file for file in files if path_splitext(file)[1] in extname]
   if postfix:
     postfix = set(postfix)
-    files = [file for file in files if splitext(splitext(file)[0])[1] in postfix]
+    files = [file for file in files if path_splitext(path_splitext(file)[0])[1] in postfix]
 
   return files
 

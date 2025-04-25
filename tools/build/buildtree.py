@@ -13,7 +13,7 @@ BUILTIN_GLOBALS = {}
 with open(os.path.join(PROJECT_PATH, 'build_api.py'), 'r') as f:
   exec(f.read(), BUILD_GLOBALS)
   exec('', BUILTIN_GLOBALS)
-  BUILD_GLOBALS = {k: v for k, v in BUILD_GLOBALS.items() if k not in BUILTIN_GLOBALS}
+  BUILD_GLOBALS = {k: v for k, v in BUILD_GLOBALS.items() if k not in BUILTIN_GLOBALS and k != '__annotations__'}
 
 build_scope = {}
 

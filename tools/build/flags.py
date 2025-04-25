@@ -4,7 +4,7 @@ from ..env import *
 from ..helper import TODO
 from .. import logging
 from ..target import get_now_target
-from .platform import get_now_platform
+from ..platform import get_now_platform
 from . import buildtree
 
 DUMPED_FLAGS = [
