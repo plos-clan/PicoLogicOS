@@ -15,7 +15,7 @@ add_compile_flags('-fsanitize=undefined')
 add_link_flags('-fno-sanitize=undefined')
 
 
-@target('kernel', type='exec', platforms=['ia32', 'amd64'])
+@target('kernel', type='dynamic-exec', platforms=['ia32', 'amd64'])
 def _(platform: str):
   include('define.h')
   depedency('base')
@@ -23,7 +23,7 @@ def _(platform: str):
   src_dir('src')
 
 
-@target('kernel', type='exec', platforms=['riscv64'])
+@target('kernel', type='dynamic-exec', platforms=['riscv64'])
 def _(platform: str):
   include('define.h')
   include_dir(f'{PROJECT_PATH}/kernel/riscv-uboot/include')
@@ -31,7 +31,7 @@ def _(platform: str):
   src_dir('riscv-uboot')
 
 
-# @target('kernel', type='exec', platforms=['arm64'])
+# @target('kernel', type='dynamic-exec', platforms=['arm64'])
 # def _(platform: str):
 #   pass
 

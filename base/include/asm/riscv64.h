@@ -2,3 +2,11 @@
 // %% generated %%
 // %% include-generated %%
 #pragma once
+#ifdef __cplusplus
+extern "C" {
+#endif // __cplusplus
+#include "riscv64/asm.h"
+#include "riscv64/alias.h"
+#ifdef __cplusplus
+}
+#endif // __cplusplus

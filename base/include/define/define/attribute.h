@@ -166,3 +166,5 @@
 #else
 #  define sized_by(...)
 #endif
+
+#define ASMFUNC extern __attr(naked)

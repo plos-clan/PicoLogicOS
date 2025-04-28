@@ -131,10 +131,19 @@ if True:
     '''
 
   def include_dir(*dir: str, lang: str = 'all'):
-    ...
+    '''
+      dir: 头文件目录
+      lang: 语言类型 ['all', 'c', 'cpp', 'asm']
+    '''
 
-  def depedency(*targets: str):
-    ...
+  def depedency(*targets: str, type: str = 'any'):
+    '''
+      targets: 依赖的目标
+      type: 依赖类型 ['any', 'static', 'dynamic']
+        any: 任何类型
+        static: 静态库
+        dynamic: 动态库
+    '''
 
   def lib_dir(*dir: str):
     ...
@@ -210,6 +219,12 @@ if True:
 
   def system(*cmd: str, cwd: str = None, env: dict[str, str] = None) -> bool:
     ...
+
+  # def on_clean(target: str) -> Callable[[Callable], Callable]:
+  #   '''
+  #     在清理目标之前执行
+  #     target: 目标名称
+  #   '''
 
 
 class CCommentReader:

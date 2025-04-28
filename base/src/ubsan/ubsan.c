@@ -122,6 +122,22 @@ typedef const struct VLABoundData {
   TypeDescriptor *Type;
 } VLABoundData;
 
+enum ImplicitConversionCheckKind {
+  ICCK_IntegerTruncation                   = 0, // Legacy, was only used by clang 7.
+  ICCK_UnsignedIntegerTruncation           = 1,
+  ICCK_SignedIntegerTruncation             = 2,
+  ICCK_IntegerSignChange                   = 3,
+  ICCK_SignedIntegerTruncationOrSignChange = 4,
+};
+
+typedef const struct ImplicitConversionData {
+  SourceLocation  Loc;
+  TypeDescriptor *FromType;
+  TypeDescriptor *ToType;
+  unsigned char   Kind;
+  unsigned int    BitfieldBits;
+} ImplicitConversionData;
+
 #define UB   "[" CRGB(255, 128, 64) "UB" CEND "]"
 #define AT   CRGB(253, 192, 160) "at" CEND
 #define IN   CRGB(253, 192, 160) "in" CEND
@@ -367,7 +383,12 @@ HANDLE("divrem_overflow", divrem_overflow, , {});
 HANDLE("dynamic_type_cache_miss", dynamic_type_cache_miss, , {});
 HANDLE("float_cast_overflow", float_cast_overflow, , {});
 HANDLE("function_type_mismatch", function_type_mismatch, , {});
-HANDLE("implicit_conversion", implicit_conversion, , {});
+HANDLE("implicit_conversion", implicit_conversion, , {
+  ImplicitConversionData *data = pos;
+  klog("\t" C1), pvalue(data->FromType, v1), klog(CEND " "), ptype(data->FromType, true);
+  klog(" " TO " " C1), pvalue(data->ToType, v2), klog(CEND " "), ptype(data->ToType, true);
+  klog("\n");
+});
 HANDLE("invalid_builtin", invalid_builtin, , {
   InvalidBuiltinData *data = pos;
   if (data->Kind == BCK_CTZPassedZero) {
@@ -448,16 +469,19 @@ HANDLE("sub_overflow", sub_overflow, , {
   klog(CEND);
   klog("\t"), ptype(data->Type, true), klog("\n");
 });
-HANDLE("type_mismatch", type_mismatch, _v1, {
-  TypeMismatchData *data = pos;
-  klog("\t" C1 "%d" CEND " ", 1 << data->LogAlignment);
-  ptype(data->Type, true), klog("\n");
-});
+// HANDLE("type_mismatch", type_mismatch, _v1, {
+//   TypeMismatchData *data = pos;
+//   klog("\t" C1 "%d" CEND " ", 1 << data->LogAlignment);
+//   ptype(data->Type, true), klog("\n");
+// });
 HANDLE("vla_bound_not_positive", vla_bound_not_positive, , {
   VLABoundData *data = pos;
   klog("\t[" C1), pvalue(data->Type, v1), klog(CEND "]");
   klog("\t"), ptype(data->Type, true), klog("\n");
 });
+
+UBSAN_FN(type_mismatch, _v1)(const void *pos, const usize v1, const usize v2) {}
+UBSAN_FX(type_mismatch, _v1abort)(const void *pos, const usize v1, const usize v2) {}
 
 __nif void __ubsan_default_options() {
   // 目前无用

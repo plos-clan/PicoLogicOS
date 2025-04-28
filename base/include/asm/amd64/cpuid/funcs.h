@@ -1,7 +1,7 @@
 #pragma once
 #include "ids.h"
 #include "macros.h"
-#include <define.h>
+#include <define/define/attribute.h>
 
 finline void cpuid_do_cache() {
   if (cpuids_cached) return;

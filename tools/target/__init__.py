@@ -22,7 +22,7 @@ class Target:  # interface
   linker_flags: str = ''
   include_files: list[str]
   include_dirs: list[str]
-  depedency: list[str]
+  depedency: list[tuple[str, str]]
   output: str = ''
   version: list[int]
   copy_to: str = ''
@@ -157,7 +157,7 @@ class Target:
   linker_flags: str = ''
   include_files: list[str]
   include_dirs: list[str]
-  depedency: list[str]
+  depedency: list[tuple[str, str]]
   output: str = ''
   version: list[int]
   copy_to: str = ''
@@ -271,7 +271,7 @@ class Target:
   def _get_depedency_args(self) -> tuple[list[str], list[Target]]:
     depedency: list[str] = []
     depedency_targets: list[Target] = []
-    for name in self.depedency:
+    for name, type in self.depedency:
       if '#' in name:
         if name not in targets:
           error(f'Target {name} not found')
@@ -303,6 +303,8 @@ class Target:
     return depedency, depedency_targets
 
   def _run_link(self, outputs: list[str], need_link: bool):
+    if not self.archiver or not self.linker:
+      fatal('Internal error: archiver or linker not set')
     if need_link or ALWAYS_RELINK:
       archiver = shlex.quote(self.archiver)
       linker = shlex.quote(self.linker)
@@ -316,11 +318,17 @@ class Target:
       if not os.path.exists(os.path.dirname(output)): os.makedirs(os.path.dirname(output), exist_ok=True)
       if self.type == 'static-lib':
         ret = os.system(f'{archiver} rcs {shlex.quote(output)} {files}')
+      elif self.type == 'dynamic-lib':
+        ret = os.system(f'{linker} {prefix} -shared {files} {dependencies} -o {shlex.quote(output)} {flags} {postfix}')
+      elif self.type == 'lib':
+        ret = os.system(f'{archiver} rcs {shlex.quote(output)} {files}')
+        ret = os.system(f'{linker} {prefix} -shared {files} {dependencies} -o {shlex.quote(output)} {flags} {postfix}')
       elif self.type == 'static-exec':
         ret = os.system(f'{linker} {prefix} -static {files} {dependencies} -o {shlex.quote(output)} {flags} {postfix}')
-      elif self.type == 'lib':
-        ret = os.system(f'{linker} {prefix} -shared {files} {dependencies} -o {shlex.quote(output)} {flags} {postfix}')
+      elif self.type == 'dynamic-exec':
+        ret = os.system(f'{linker} {prefix} {files} {dependencies} -o {shlex.quote(output)} {flags} {postfix}')
       elif self.type == 'exec':
+        ret = os.system(f'{linker} {prefix} -static {files} {dependencies} -o {shlex.quote(output)} {flags} {postfix}')
         ret = os.system(f'{linker} {prefix} {files} {dependencies} -o {shlex.quote(output)} {flags} {postfix}')
       else:
         fatal('Unknown target type')

@@ -6,23 +6,22 @@ include_dir('stdinc/' + CC_TYPE)
 
 add_compile_flags('-ffreestanding')
 
+add_compile_flags('-DPLOS_BASE=1')
+
 
 @target('base', type='static-lib', platforms=['ia32', 'amd64'])
 def main():
-  add_compile_flags('-DPLOS_BASE=1')
   include('define.h')
   src_dir('src/base')
 
 
-@target('pico-alloc', type='lib', platforms=['ia32', 'amd64'])
+@target('pico-alloc', type='static-lib', platforms=['ia32', 'amd64'])
 def main():
-  add_compile_flags('-DPLOS_BASE=1')
   include('define.h')
   src_dir('src/pico-alloc')
 
 
 @target('ubsan', type='static-lib', platforms=['ia32', 'amd64'])
 def main(platform: str):
-  add_compile_flags('-DPLOS_BASE=1')
   include('define.h')
   src_dir('src/ubsan')

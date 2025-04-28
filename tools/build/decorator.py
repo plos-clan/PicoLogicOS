@@ -27,7 +27,7 @@ def create_target(
   if has_target(name):
     warn(f'Target {name} already exists.')
     return False
-  if type not in ['exec', 'static-exec', 'lib', 'dynamic-lib', 'static-lib']: raise ValueError("Invalid value for 'type'.")
+  if type not in ['exec', 'dynamic-exec', 'static-exec', 'lib', 'dynamic-lib', 'static-lib']: raise ValueError("Invalid value for 'type'.")
   fullname = f'{name}#{platform}'
 
   info(f'Creating target {fullname}')
@@ -65,7 +65,7 @@ def create_target(
 def target(name: str, type: str = 'exec', platforms: list[str] | str = 'default', output: str = None) -> Callable[[Callable], Callable]:
   if any([c not in VAILD_NAME for c in name]): raise ValueError("Invalid character in 'name'.")
   if output is None: output = name
-  if type not in ['exec', 'static-exec', 'lib', 'dynamic-lib', 'static-lib', 'customize']: raise ValueError("Invalid value for 'type'.")
+  if type not in ['exec', 'dynamic-exec', 'static-exec', 'lib', 'dynamic-lib', 'static-lib', 'customize']: raise ValueError("Invalid value for 'type'.")
   if platforms is not None and any([any([c not in VAILD_NAME for c in platform]) for platform in platforms]): raise ValueError("Invalid character in 'platforms'.")
   if isinstance(platforms, str): platforms = [platforms]
 

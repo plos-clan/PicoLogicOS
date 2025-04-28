@@ -1,5 +1,7 @@
 #pragma once
-#include <define.h>
+#include <define/type/addr.h>
+#include <define/type/base.h>
+#include <define/type/int.h>
 
 #define asm_get_flags()                                                                            \
   ({                                                                                               \

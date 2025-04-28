@@ -14,7 +14,7 @@ def src_dir(*dirs: str, hidden_file: bool = False, flags_overwrite: str | list[s
   if isinstance(dirs, str): dirs = [dirs]
 
   target = get_now_target()
-  if target is None: fatal('No target specified')
+  if target is None: fatal('No target specified, use src_dir() in target scope')
 
   files = flatten([filter_file_by_platform(
       find_files(dir, hidden_file=hidden_file),
@@ -82,10 +82,10 @@ def include(*files: str, lang: str = 'all', abslute: bool = False):
     buildtree.build_scope['INCLUDE_FILES'] += files
 
 
-def depedency(*targets: str):
+def depedency(*targets: str, type: str = 'any'):
   target = get_now_target()
   if target is None: fatal('No target specified')
-  target.depedency += targets
+  target.depedency += [(target, type) for target in targets]
 
 
 def include_dir(*dirs: str, lang: str = 'all'):

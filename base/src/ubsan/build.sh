@@ -21,7 +21,8 @@ clang -c 'ubsan.c' -o 'ubsan.amd64.o' \
   -fPIE -fPIC \
   -fvisibility=hidden \
   -ffreestanding \
-  -std=gnu2x
+  -std=gnu2x \
+  -mno-mmx -mno-sse
 
 ar rcs libubsan.amd64.a ubsan.amd64.o
 
@@ -49,7 +50,8 @@ clang -c ubsan.c -o ubsan.ia32.o \
   -fPIE -fPIC \
   -fvisibility=hidden \
   -ffreestanding \
-  -std=gnu2x
+  -std=gnu2x \
+  -mno-mmx -mno-sse
 
 ar rcs libubsan.ia32.a ubsan.ia32.o
 

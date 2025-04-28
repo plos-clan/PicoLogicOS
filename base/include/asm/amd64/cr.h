@@ -1,5 +1,4 @@
 #pragma once
-#include <define.h>
 
 // cr0 控制寄存器
 // cr1 是保留寄存器
