@@ -1,0 +1,15 @@
+.cache
+.env
+.vscode
+.VSCodeCounter
+
+__pycache__
+
+/bin
+/build
+/lib
+
+/init.log
+
+/base/include/bitmap-font
+/base/stdinc

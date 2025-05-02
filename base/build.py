@@ -25,3 +25,9 @@ def main():
 def main(platform: str):
   include('define.h')
   src_dir('src/ubsan')
+
+
+@target('textdraw', type='static-lib', platforms=['ia32', 'amd64'])
+def _():
+  include('define.h')
+  src_dir('src/textdraw')
