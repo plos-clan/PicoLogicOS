@@ -5,7 +5,10 @@
 #ifdef __cplusplus
 extern "C" {
 #endif // __cplusplus
-#include "arm64/asm.h"
+#include "pthread/thread.h"
+#include "pthread/mutex.h"
+#include "pthread/cond.h"
+#include "pthread/rwlock.h"
 #ifdef __cplusplus
 }
 #endif // __cplusplus

@@ -5,8 +5,12 @@
 
 __pycache__
 
+/bazel-*
+
 /bin
 /build
+/builddir
 /lib
-
+/resources
 /init.log
+/util

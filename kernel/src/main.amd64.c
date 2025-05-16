@@ -242,10 +242,10 @@ static void kernel_main() {
   infinite_loop asm_hlt;
 }
 
-void _start() { // 如果在 linux 下被执行
-  __syscall(1, 1, "Hello World!\n", 13);
-  __syscall(60, 0);
-  infinite_loop asm_hlt;
-}
+// void _start() { // 如果在 linux 下被执行
+//   __syscall(1, 1, "Hello World!\n", 13);
+//   __syscall(60, 0);
+//   infinite_loop asm_hlt;
+// }
 
 #define vaddrof(paddr) ((usize)(paddr) + hhdm.response->offset)

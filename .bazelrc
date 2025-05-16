@@ -1,0 +1,7 @@
+build:gcc   --action_env=CC_TYPE=gcc
+build:clang --action_env=CC_TYPE=clang
+
+build --action_env=CC=clang
+build --action_env=CXX=clang++
+build --action_env=AR=llvm-ar
+build --action_env=LD=lld

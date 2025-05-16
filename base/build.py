@@ -27,6 +27,18 @@ def main(platform: str):
   src_dir('src/ubsan')
 
 
+@target('coroutine', type='static-lib', platforms=['ia32', 'amd64'])
+def _():
+  include('define.h')
+  src_dir('src/coroutine')
+
+
+@target('ainit', type='static-lib', platforms=['ia32', 'amd64'])
+def _():
+  include('define.h')
+  src_dir('src/ainit')
+
+
 @target('textdraw', type='static-lib', platforms=['ia32', 'amd64'])
 def _():
   include('define.h')

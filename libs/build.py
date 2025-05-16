@@ -2,6 +2,8 @@ if 'target' not in globals(): from build_api import *
 
 mkheader('include/efi')
 
+mkheader('include/pthread')
+
 mkheader('include/data-structure', srcdir='data-structure', flag='h-only', recurse=True)
 mkheader('include/data-structure', srcdir='data-structure', flag='hpp-only', recurse=True)
 
@@ -21,3 +23,13 @@ def _():
 @target('data-structure', type='static-lib', platforms=['ia32', 'amd64'])
 def _():
   compile('data-structure/main.c', 'data-structure/main.cpp')
+
+
+@target('c', type='lib', platforms=['ia32', 'amd64'])
+def _():
+  src_dir('c')
+
+
+@target('c++', type='lib', platforms=['ia32', 'amd64'])
+def _():
+  src_dir('c++')

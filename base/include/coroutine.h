@@ -5,7 +5,8 @@
 #ifdef __cplusplus
 extern "C" {
 #endif // __cplusplus
-#include "arm64/asm.h"
+#include "coroutine/main.h"
+#include "coroutine/regs.h"
 #ifdef __cplusplus
 }
 #endif // __cplusplus
