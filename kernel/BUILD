@@ -15,14 +15,10 @@ linkflags = get_default_flags("plos")["linkflags"] + [
     "-T $(location :lds/amd64.ld)",
 ]
 
-includes = [
-    "include",
-]
-
 cc_library(
-    name = "kernel_headers",
+    name = "headers",
     hdrs = glob(["include/**/*"]),
-    includes = includes,
+    includes = ["include"],
     visibility = ["//visibility:public"],
 )
 
@@ -37,7 +33,7 @@ plos_binary(
     visibility = ["//visibility:public"],
     deps = [
         "//base:base#",
-        "//kernel:kernel_headers",
-        "//libs:lib_headers",
+        "//kernel:headers",
+        "//libs:headers",
     ],
 )

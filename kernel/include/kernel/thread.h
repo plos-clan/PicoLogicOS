@@ -1,9 +1,5 @@
 #pragma once
-
-#define ADDRESS_SPACE(x) __attr(address_space(x))
-
-typedef struct pcb *pcb_t;
-typedef struct tcb *tcb_t;
+#include "./typedefs.h"
 
 struct pcb {
   i32   pid;      // 进程 ID

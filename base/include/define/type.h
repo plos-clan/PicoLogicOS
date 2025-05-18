@@ -14,7 +14,6 @@ extern "C" {
 #include "type/bool.h"
 #include "type/char.h"
 #include "type/complex.h"
-#include "type/const.h"
 #include "type/ex.h"
 #include "type/func.h"
 #include "type/int.h"

@@ -13,13 +13,79 @@ cxxflags = get_default_flags("plos")["cxxflags"] + include_files
 
 linkflags = get_default_flags("plos")["linkflags"]
 
-includes = [
-    "include",
-]
-
 cc_library(
-    name = "lib_headers",
+    name = "headers",
     hdrs = glob(["include/**/*"]),
-    includes = includes,
+    includes = ["include"],
     visibility = ["//visibility:public"],
+)
+
+plos_library(
+    name = "algorithm",
+    srcdir = "src/algorithm",
+    copts = cflags,
+    cxxopts = cxxflags,
+    linkopts = linkflags,
+    visibility = ["//visibility:public"],
+    deps = [
+        "//base:base#",
+        "//base:headers",
+        "//libs:headers",
+    ],
+)
+
+plos_library(
+    name = "data-structure",
+    srcdir = "src/data-structure",
+    copts = cflags,
+    cxxopts = cxxflags,
+    linkopts = linkflags,
+    visibility = ["//visibility:public"],
+    deps = [
+        "//base:base#",
+        "//base:headers",
+        "//libs:headers",
+    ],
+)
+
+plos_library(
+    name = "c",
+    srcdir = "src/c",
+    copts = cflags + ["-ffreestanding"],
+    cxxopts = cxxflags + ["-ffreestanding"],
+    linkopts = linkflags + ["-ffreestanding"],
+    visibility = ["//visibility:public"],
+    deps = [
+        "//base:base#",
+        "//base:headers",
+        "//base:pico-alloc#",
+        "//libs:headers",
+    ],
+)
+
+plos_library(
+    name = "c++",
+    srcdir = "src/c++",
+    copts = cflags + ["-ffreestanding"],
+    cxxopts = cxxflags + ["-ffreestanding"],
+    linkopts = linkflags + ["-ffreestanding"],
+    visibility = ["//visibility:public"],
+    deps = [
+        "//libs:c#",
+        "//libs:headers",
+    ],
+)
+
+plos_library(
+    name = "asio",
+    srcdir = "src/asio",
+    copts = cflags,
+    cxxopts = cxxflags,
+    linkopts = linkflags,
+    visibility = ["//visibility:public"],
+    deps = [
+        "//base:base#",
+        "//base:headers",
+        "//libs:headers",
+    ],
 )

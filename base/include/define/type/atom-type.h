@@ -136,6 +136,7 @@ typedef _Atomic bool atomic_flag_t;
 
 #else
 
+//*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 #  if PLOS_ABBR_ATOM_XXX
 
 typedef atomic_bool   atom_bool;
@@ -180,7 +181,9 @@ typedef atomic_ptrdiff_t atom_pdiff_t;
 typedef atomic_flag_t atom_flag_t;
 
 #  endif
+//.<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
+//*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 #  if PLOS_ABBR_AIN
 
 typedef atomic_int8_t   ai8;
@@ -197,6 +200,7 @@ typedef atomic_uint128_t au128;
 #    endif
 
 #  endif
+//.<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 #endif
 

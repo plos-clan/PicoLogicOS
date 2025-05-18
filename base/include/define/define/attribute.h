@@ -168,3 +168,5 @@
 #endif
 
 #define ASMFUNC extern __attr(naked)
+
+#define ADDRESS_SPACE(x) __attr(address_space(x))

@@ -85,6 +85,10 @@ void percpu_main(struct limine_mp_info *core) {
   infinite_loop asm_hlt;
 }
 
+USED SECTION(".plos_loader_info") static const volatile struct {
+  u8 signature[4];
+} info;
+
 void klog_raw(cstr s);
 
 void klog_number(u64 n) {

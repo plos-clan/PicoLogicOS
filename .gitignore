@@ -7,6 +7,8 @@ __pycache__
 
 /bazel-*
 
+/deps
+
 /bin
 /build
 /builddir

@@ -9,6 +9,7 @@ extern "C" {
 #include "kernel/thread.h"
 #include "kernel/page.h"
 #include "kernel/kmman.h"
+#include "kernel/typedefs.h"
 #ifdef __cplusplus
 }
 #endif // __cplusplus

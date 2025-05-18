@@ -13,74 +13,102 @@ cxxflags = get_default_flags("plos")["cxxflags"] + include_files
 
 linkflags = get_default_flags("plos")["linkflags"]
 
-includes = [
-    "include",
-    "stdinc",
-    "stdinc/clang",
-]
+cc_library(
+    name = "asm",
+    hdrs = glob(["include/asm/**/*"]) + ["include/asm.h"],
+    includes = ["include"],
+    visibility = ["//visibility:public"],
+)
+
+cc_library(
+    name = "platform",
+    hdrs = glob(["include/platform/**/*"]) + ["include/platform.h"],
+    includes = ["include"],
+    visibility = ["//visibility:public"],
+)
+
+cc_library(
+    name = "define",
+    hdrs = glob(["include/define/**/*"]) + ["include/define.h"],
+    includes = ["include"],
+    visibility = ["//visibility:public"],
+    deps = ["//base:asm"],
+)
+
+cc_library(
+    name = "stdinc",
+    hdrs = glob(["stdinc/**/*"]),
+    includes = [
+        "stdinc",
+        "stdinc/clang",
+    ],
+    visibility = ["//visibility:public"],
+)
+
+cc_library(
+    name = "headers",
+    hdrs = glob(["include/**/*"]),
+    includes = ["include"],
+    visibility = ["//visibility:public"],
+    deps = ["//base:stdinc"],
+)
 
 plos_library(
     name = "base",
     srcdir = "src/base",
-    hdrs = glob(["include/**/*"]),
-    copts = cflags,
-    cxxopts = cxxflags,
-    includes = includes,
-    linkopts = linkflags,
+    copts = cflags + ["-ffreestanding"],
+    cxxopts = cxxflags + ["-ffreestanding"],
+    linkopts = linkflags + ["-ffreestanding"],
     visibility = ["//visibility:public"],
+    deps = ["//base:headers"],
 )
 
 plos_library(
     name = "pico-alloc",
     srcdir = "src/pico-alloc",
-    hdrs = glob(["include/**/*"]),
     copts = cflags,
     cxxopts = cxxflags,
-    includes = includes,
     linkopts = linkflags,
     visibility = ["//visibility:public"],
+    deps = ["//base:headers"],
 )
 
 plos_library(
     name = "ubsan",
     srcdir = "src/ubsan",
-    hdrs = glob(["include/**/*"]),
-    copts = cflags,
-    cxxopts = cxxflags,
-    includes = includes,
-    linkopts = linkflags,
+    copts = cflags + ["-ffreestanding"],
+    cxxopts = cxxflags + ["-ffreestanding"],
+    linkopts = linkflags + ["-ffreestanding"],
     visibility = ["//visibility:public"],
+    deps = ["//base:headers"],
 )
 
 plos_library(
     name = "coroutine",
     srcdir = "src/coroutine",
-    hdrs = glob(["include/**/*"]),
     copts = cflags,
     cxxopts = cxxflags,
-    includes = includes,
     linkopts = linkflags,
     visibility = ["//visibility:public"],
+    deps = ["//base:headers"],
 )
 
 plos_library(
     name = "ainit",
     srcdir = "src/ainit",
-    hdrs = glob(["include/**/*"]),
     copts = cflags,
     cxxopts = cxxflags,
-    includes = includes,
     linkopts = linkflags,
     visibility = ["//visibility:public"],
+    deps = ["//base:headers"],
 )
 
 plos_library(
     name = "textdraw",
     srcdir = "src/textdraw",
-    hdrs = glob(["include/**/*"]),
     copts = cflags,
     cxxopts = cxxflags,
-    includes = includes,
     linkopts = linkflags,
     visibility = ["//visibility:public"],
+    deps = ["//base:headers"],
 )

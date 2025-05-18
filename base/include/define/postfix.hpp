@@ -25,43 +25,43 @@ constexpr auto operator""_TiB(unsigned long long x) -> usize {
 }
 
 constexpr auto operator""_i8(unsigned long long x) -> i8 {
-  return x;
+  return (i8)x;
 }
 
 constexpr auto operator""_u8(unsigned long long x) -> u8 {
-  return x;
+  return (u8)x;
 }
 
 constexpr auto operator""_i16(unsigned long long x) -> i16 {
-  return x;
+  return (i16)x;
 }
 
 constexpr auto operator""_u16(unsigned long long x) -> u16 {
-  return x;
+  return (u16)x;
 }
 
 constexpr auto operator""_i32(unsigned long long x) -> i32 {
-  return x;
+  return (i32)x;
 }
 
 constexpr auto operator""_u32(unsigned long long x) -> u32 {
-  return x;
+  return (u32)x;
 }
 
 constexpr auto operator""_i64(unsigned long long x) -> i64 {
-  return x;
+  return (i64)x;
 }
 
 constexpr auto operator""_u64(unsigned long long x) -> u64 {
-  return x;
+  return (u64)x;
 }
 
 constexpr auto operator""_f32(long double x) -> f32 {
-  return x;
+  return (f32)x;
 }
 
 constexpr auto operator""_f64(long double x) -> f64 {
-  return x;
+  return (f64)x;
 }
 
 #if defined(__x86_64__)
@@ -72,8 +72,9 @@ constexpr auto operator""_i128(unsigned long long x) -> i128 {
 constexpr auto operator""_u128(unsigned long long x) -> u128 {
   return x;
 }
+#endif
 
-#  if !NO_EXTFLOAT
+#if defined(__x86_64__) && !NO_EXTFLOAT
 constexpr auto operator""_f16(long double x) -> f16 {
   return x;
 }
@@ -81,5 +82,4 @@ constexpr auto operator""_f16(long double x) -> f16 {
 constexpr auto operator""_f128(long double x) -> f128 {
   return x;
 }
-#  endif
 #endif

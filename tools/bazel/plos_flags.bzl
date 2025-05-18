@@ -14,7 +14,6 @@ def _default_flags_plos():
             "-fdata-sections",
             "-nostdlib",
             "-nostdinc",
-            "-ffreestanding",
         ],
         "cflags": [
             "-std=gnu2x",

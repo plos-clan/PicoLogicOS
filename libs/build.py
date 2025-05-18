@@ -2,7 +2,9 @@ if 'target' not in globals(): from build_api import *
 
 mkheader('include/efi')
 
-mkheader('include/pthread')
+mkheader('include/libc')
+
+mkheader('include/libc++')
 
 mkheader('include/data-structure', srcdir='data-structure', flag='h-only', recurse=True)
 mkheader('include/data-structure', srcdir='data-structure', flag='hpp-only', recurse=True)

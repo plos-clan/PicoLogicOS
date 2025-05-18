@@ -19,6 +19,8 @@
 
 // 还是打表大佬
 
+//- gcc 似乎不支持
+
 #if PLOS_BITINT && PLOS_COMPLEX
 
 typedef _Complex _BitInt(2) ci2;

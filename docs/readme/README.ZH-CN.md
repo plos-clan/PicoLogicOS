@@ -52,6 +52,32 @@ Pico Logic OS &trade;
 
 ## 构建
 
+我们更建议使用 `Bazel` 构建这个项目，因为 `PLOS Build` 还不够完善且存在 bug。
+
+### Bazel
+
+#### 安装 Bazel
+
+直接从 github 下载[最新预编译二进制](https://github.com/bazelbuild/bazel/releases/latest)使用。
+
+或按照 Bazel 官网的[安装教程](https://bazel.build/install?hl=zh-cn)下载并安装 Bazel。
+
+*有些操作系统上的 Bazel 软件包版本过旧，可能无法正常工作，建议从 github 上下载最新版本。*
+
+如果要参与开发，也建议同时安装 buildtools，可以从 github 下载[最新预编译二进制](https://github.com/bazelbuild/buildtools/releases/latest)使用。
+
+对于 vscode 用户，可以安装 [Bazel](https://marketplace.visualstudio.com/items?itemName=BazelBuild.vscode-bazel) 插件。
+
+#### 使用 Bazel 构建
+
+如果你已经安装了 `Bazel`，可以直接运行：
+
+```sh
+bazel build //...
+```
+
+### PLOS Build
+
 运行 plos 自带的构建工具：
 
 ```sh
@@ -72,17 +98,11 @@ AR=llvm-ar
 
 ## 许可证
 
-This project is dual-licensed under either:
+本项目采用双重许可：
 
-- [MIT License](LICENSE-MIT)
-- [Apache License 2.0](LICENSE-MIT)
+- [MIT 许可](LICENSE-MIT)
+- [Apache 2.0 许可](LICENSE-MIT)
 
-at your option.
+您可以根据自己的需要选择任一许可。
 
-You can choose either license according to your needs.
-
-Unless required by applicable law or agreed to in writing,
-software distributed under these licenses is distributed on
-an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
-either express or implied. See the licenses for the specific
-language governing permissions and limitations.
+除非适用法律另有要求或经书面同意，否则根据这些许可分发的软件均按“原样”提供，不附带任何明示或暗示的担保或条件。有关具体的权限和限制，请参阅相应许可文件。

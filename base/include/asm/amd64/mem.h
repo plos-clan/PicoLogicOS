@@ -7,6 +7,8 @@
 #define memory_barrier ({ asm volatile("mfence" ::: "memory"); })
 
 #define asm_mfence ({ asm volatile("mfence\n\t" ::: "memory"); })
+#define asm_lfence ({ asm volatile("lfence\n\t" ::: "memory"); })
+#define asm_sfence ({ asm volatile("sfence\n\t" ::: "memory"); })
 
 #define asm_cflush(addr) ({ asm volatile("clflush (%0)\n\t" ::"r"((size_t)(addr))); })
 

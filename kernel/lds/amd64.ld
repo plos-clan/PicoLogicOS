@@ -3,6 +3,7 @@ OUTPUT_FORMAT(elf64-x86-64)
 ENTRY(_start)
 
 PHDRS {
+    plos_loader_info PT_LOAD FLAGS(4);
     limine_requests PT_LOAD FLAGS(4);
     dyn PT_LOAD FLAGS(4);
     text PT_LOAD FLAGS(5);
@@ -13,6 +14,10 @@ PHDRS {
 
 SECTIONS {
     . = ALIGN(4096);
+
+    .plos_loader_info : ALIGN(8) {
+        KEEP(*(.plos_loader_info .plos_loader_info.*))
+    } : plos_loader_info
 
     .limine_requests : ALIGN(8) {
         KEEP(*(.limine_requests_start))

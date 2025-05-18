@@ -1,5 +1,9 @@
 #pragma once
 
+#define asm_nop   ({ asm volatile("nop\n\t" ::: "memory"); })
+#define asm_pause ({ asm volatile("nop\n\t" ::: "memory"); })
+#define asm_yield ({ asm volatile("nop\n\t" ::: "memory"); })
+
 #define asm_wfi ({ asm volatile("wfi\n\t" ::: "memory"); })
 
 #define disable_interrupts ({ asm volatile("csrci mstatus, 0x8" ::: "memory"); })

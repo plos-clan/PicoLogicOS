@@ -1,5 +1,9 @@
 #pragma once
 
+// Same as <asm.h>
+
+#include <asm/general.h>
+
 #if __i386__
 #  include <asm/amd64.h>
 #elif __x86_64__
