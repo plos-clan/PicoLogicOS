@@ -1,0 +1,19 @@
+----- META -----
+
+
+
+----- COLORS -----
+
+
+
+----- RULES -----
+
+
+func >
+  type
+  SYM @funcname
+  arglist
+
+
+root *|
+  func

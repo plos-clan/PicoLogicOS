@@ -92,7 +92,10 @@
     (typeof(size))_size_;                                                                          \
   })
 
+// 如果循环不会被打断，则使用 infinite_loop
 #define infinite_loop while (true)
+// 如果循环会被打断，则使用 loop
+#define loop          while (true)
 
 #define waitif(cond)                                                                               \
   ((void)({                                                                                        \

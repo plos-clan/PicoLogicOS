@@ -1,3 +1,7 @@
+#pragma once
+
+#pragma GCC system_header
+
 #ifndef __cplusplus
 
 #  define new1(type)      ((type *)calloc(1, sizeof(type)))

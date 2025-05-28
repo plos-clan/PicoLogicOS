@@ -5,23 +5,25 @@ load("//tools/bazel:compiler_env.bzl", "compiler_env")
 
 def _dep_name(name, arch, linktype):
     if name.endswith("#"):
-        return name[:-1] + "%" + arch + "+" + linktype
+        if "+" in name:
+            return name.split("+", 1)[0] + "%" + arch + "+" + name.split("+", 1)[1]
+        else:
+            return name[:-1] + "%" + arch + "+" + linktype
     else:
         return name
 
-def plos_binary(name, srcdir, linktype = "all", copts = [], cxxopts = [], linkopts = [], deps = [], **kwargs):
+def host_binary(name, srcdir, linktype = "all", copts = [], cxxopts = [], linkopts = [], deps = [], **kwargs):
     env = compiler_env()
     flags = arch_flags()
 
     for arch in ["amd64", "ia32", "riscv64", "arm64"]:
         base_srcs = native.glob([srcdir + "/*.c"], exclude = [srcdir + "/*.*.c"], allow_empty = True)
         arch_srcs = native.glob([srcdir + "/*." + arch + ".c"], allow_empty = True)
-        plos_srcs = native.glob([srcdir + "/*.plos.c"], allow_empty = True)
 
         if linktype == "all" or linktype == "dynamic":
             cc_binary(
-                name = name + "%" + arch + "+dynamic",
-                srcs = base_srcs + arch_srcs + plos_srcs,
+                name = "host-" + name + "%" + arch + "+dynamic",
+                srcs = base_srcs + arch_srcs,
                 copts = flags[arch]["CFLAGS"] + copts,
                 cxxopts = flags[arch]["CXXFLAGS"] + cxxopts,
                 linkopts = flags[arch]["LDFLAGS"] + linkopts,
@@ -31,8 +33,8 @@ def plos_binary(name, srcdir, linktype = "all", copts = [], cxxopts = [], linkop
             )
         if linktype == "all" or linktype == "static":
             cc_binary(
-                name = name + "%" + arch + "+static",
-                srcs = base_srcs + arch_srcs + plos_srcs,
+                name = "host-" + name + "%" + arch + "+static",
+                srcs = base_srcs + arch_srcs,
                 copts = flags[arch]["CFLAGS"] + copts,
                 cxxopts = flags[arch]["CXXFLAGS"] + cxxopts,
                 linkopts = flags[arch]["LDFLAGS"] + linkopts,
@@ -41,19 +43,17 @@ def plos_binary(name, srcdir, linktype = "all", copts = [], cxxopts = [], linkop
                 **kwargs
             )
 
-def plos_library(name, srcdir, linktype = "all", copts = [], cxxopts = [], linkopts = [], deps = [], **kwargs):
+def host_library(name, srcdir, linktype = "all", copts = [], cxxopts = [], linkopts = [], deps = [], **kwargs):
     env = compiler_env()
     flags = arch_flags()
 
     for arch in ["amd64", "ia32", "riscv64", "arm64"]:
         base_srcs = native.glob([srcdir + "/*.c"], exclude = [srcdir + "/*.*.c"], allow_empty = True)
         arch_srcs = native.glob([srcdir + "/*." + arch + ".c"], allow_empty = True)
-        plos_srcs = native.glob([srcdir + "/*.plos.c"], allow_empty = True)
-
         if linktype == "all" or linktype == "dynamic":
             cc_library(
-                name = name + "%" + arch + "+dynamic",
-                srcs = base_srcs + arch_srcs + plos_srcs,
+                name = "host-" + name + "%" + arch + "+dynamic",
+                srcs = base_srcs + arch_srcs,
                 copts = flags[arch]["CFLAGS"] + copts,
                 cxxopts = flags[arch]["CXXFLAGS"] + cxxopts,
                 linkopts = flags[arch]["LDFLAGS"] + linkopts,
@@ -63,8 +63,8 @@ def plos_library(name, srcdir, linktype = "all", copts = [], cxxopts = [], linko
             )
         if linktype == "all" or linktype == "static":
             cc_library(
-                name = name + "%" + arch + "+static",
-                srcs = base_srcs + arch_srcs + plos_srcs,
+                name = "host-" + name + "%" + arch + "+static",
+                srcs = base_srcs + arch_srcs,
                 copts = flags[arch]["CFLAGS"] + copts,
                 cxxopts = flags[arch]["CXXFLAGS"] + cxxopts,
                 linkopts = flags[arch]["LDFLAGS"] + linkopts,

@@ -13,7 +13,7 @@ struct BaseLine {
   BaseLine()                                         = default;
   BaseLine(const BaseLine &)                         = default;
   BaseLine(BaseLine &&) noexcept                     = default;
-  auto operator=(const BaseLine &) -> BaseLine     & = default;
+  auto operator=(const BaseLine &) -> BaseLine &     = default;
   auto operator=(BaseLine &&) noexcept -> BaseLine & = default;
 
   auto translate(T x, T y) -> BaseLine & {
@@ -25,7 +25,7 @@ struct BaseLine {
   }
 
   auto rect() -> BaseRect<T> {
-    return {x1, y1, x2, y2};
+    return BaseRect(x1, y1, x2, y2);
   }
 
   // 将线段剪切，保留矩形内的区域

@@ -2,6 +2,8 @@
 
 Pico Logic OS &trade;
 
+> 至少在 2025 年 1 月 1 日我们未查询到同名项目
+
 [Plant-OS](https://github.com/min0911Y/Plant-OS) 的第二次重构。<br>
 [Powerint-DOS-386](https://github.com/ZhouZhihaos/Powerint-DOS-386) 的第三次重构。<br>
 历史储存库地址：

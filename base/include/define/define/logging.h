@@ -19,15 +19,26 @@
 
 #include "00-include.h"
 
-#define CRGB(r, g, b)  "\033[38;2;" #r ";" #g ";" #b "m"
-#define CBRGB(r, g, b) "\033[48;2;" #r ";" #g ";" #b "m"
-#define CEND           "\033[0m"
+#if LOG_RGB_SUPPORTED
+// 设置终端颜色的转义序列
+#  define CRGB(r, g, b)  "\033[38;2;" #r ";" #g ";" #b "m"
+#  define CBRGB(r, g, b) "\033[48;2;" #r ";" #g ";" #b "m"
+#  define CEND           "\033[0m"
+#endif
 
-#define COLOR_DEBUG CRGB(128, 192, 255)
-#define COLOR_INFO  CRGB(64, 192, 128)
-#define COLOR_WARN  CRGB(255, 192, 0)
-#define COLOR_ERROR CRGB(255, 128, 64)
-#define COLOR_FATAL CRGB(255, 64, 64)
+#if LOG_RGB_SUPPORTED
+#  define COLOR_DEBUG CRGB(128, 192, 255)
+#  define COLOR_INFO  CRGB(64, 192, 128)
+#  define COLOR_WARN  CRGB(255, 192, 0)
+#  define COLOR_ERROR CRGB(255, 128, 64)
+#  define COLOR_FATAL CRGB(255, 64, 64)
+#else
+#  define COLOR_DEBUG "\033[1;36m"
+#  define COLOR_INFO  "\033[1;32m"
+#  define COLOR_WARN  "\033[1;33m"
+#  define COLOR_ERROR "\033[1;31m"
+#  define COLOR_FATAL "\033[1;31m"
+#endif
 
 #define STR_DEBUG "[" COLOR_DEBUG "Debug" CEND "] "
 #define STR_INFO  "[" COLOR_INFO "Info " CEND "] "
@@ -88,6 +99,13 @@ static __attribute__((nonnull(1))) const char *_log_relative_path_(const char *p
 
 #define ARG_LOGINFO ARG_LOGINFO_FILE, ARG_LOGINFO_FUNC
 #define STR_LOGINFO STR_LOGINFO_FILE STR_LOGINFO_FUNC
+
+#if !LOG_RGB_SUPPORTED
+#  undef STR_LOGINFO_FILE
+#  undef STR_LOGINFO_FUNC
+#  define STR_LOGINFO_FILE "[\033[1;35m%-12s" CEND "] "
+#  define STR_LOGINFO_FUNC "[\033[1;36m%-20s" CEND ":\033[1;35m%4d" CEND "] "
+#endif
 
 #define _LOG(type, fmt, ...)                                                                       \
   printf(CONCAT(STR, type) STR_LOGINFO CONCAT(COLOR, type) fmt CEND "\n", ARG_LOGINFO,             \

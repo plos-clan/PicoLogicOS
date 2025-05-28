@@ -30,7 +30,7 @@ using Texture  = TextureB;
 template <typename T>
 struct BaseTexture {
   // 可以是内部通过 malloc 分配，也可以是外部数据
-  T *pixels sized_by(width *height) = null;
+  T *pixels sized_by((width * height)) = null;
 
   bool own_pixels      = false; // pixels 是否为该结构体所有
   bool refcnted_pixels = false; // pixels 是否使用引用计数
@@ -64,7 +64,7 @@ struct BaseTexture {
   }
 
   // 是否已经初始化
-  auto ready() const -> bool {
+  INLINE auto ready() const -> bool {
     return pixels != null;
   }
 

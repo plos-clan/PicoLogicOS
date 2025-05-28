@@ -1,5 +1,6 @@
 load("@rules_cc//cc:cc_binary.bzl", "cc_binary")
 load("@rules_cc//cc:cc_library.bzl", "cc_library")
+load("//tools/bazel:host_build.bzl", "host_binary", "host_library")
 load("//tools/bazel:plos_build.bzl", "plos_binary", "plos_library")
 load("//tools/bazel:plos_flags.bzl", "get_default_flags")
 
@@ -62,6 +63,16 @@ plos_library(
     visibility = ["//visibility:public"],
     deps = ["//base:headers"],
 )
+
+# host_library(
+#     name = "base",
+#     srcdir = "src/base",
+#     copts = cflags + ["-ffreestanding"],
+#     cxxopts = cxxflags + ["-ffreestanding"],
+#     linkopts = linkflags + ["-ffreestanding"],
+#     visibility = ["//visibility:public"],
+#     deps = ["//base:headers"],
+# )
 
 plos_library(
     name = "pico-alloc",

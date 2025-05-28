@@ -5,14 +5,14 @@
 
 __pycache__
 
+compile_commands.json
+
 /bazel-*
 
 /deps
 
 /bin
 /build
-/builddir
 /lib
 /resources
 /init.log
-/util

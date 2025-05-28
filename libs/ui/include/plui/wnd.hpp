@@ -3,7 +3,7 @@
 
 namespace plui {
 
-struct pdui_window : Element {
+struct Window : Element {
   char   *title;
   bool    moving; // 是否正在移动窗口
   int32_t oldx;

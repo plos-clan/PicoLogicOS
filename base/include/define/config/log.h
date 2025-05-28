@@ -8,3 +8,7 @@
 #elif RING3
 #  define NO_LOG 0
 #endif
+
+#ifndef LOG_RGB_SUPPORTED
+#  define LOG_RGB_SUPPORTED 1
+#endif
