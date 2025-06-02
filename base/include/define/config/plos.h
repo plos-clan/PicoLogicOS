@@ -1,4 +1,9 @@
 
+
+#ifndef DO_NOT_OVERRIDE_COMMON_NAMES
+#  define DO_NOT_OVERRIDE_COMMON_NAMES 0
+#endif
+
 // 是否使用中断来实现系统调用
 // (仅在 x86 平台上使用)
 #define SYSCALL_USE_INTERRPUT 0

@@ -161,12 +161,17 @@
 #define WEAK __attr(weak) //+ PLOS Defination
 
 //+ PLOS Defination
-#ifdef __clang__
-#  define sized_by(...) __attr(sized_by(__VA_ARGS__))
-#else
-#  define sized_by(...)
+#if !DO_NOT_OVERRIDE_COMMON_NAMES
+#  ifdef __clang__
+#    define sized_by(...) __attr(sized_by(__VA_ARGS__))
+#  else
+#    define sized_by(...)
+#  endif
 #endif
 
 #define ASMFUNC extern __attr(naked)
 
 #define ADDRESS_SPACE(x) __attr(address_space(x))
+
+#define NORETURN    __attr(noreturn)
+#define RETURNTWICE __attr(return_twice)

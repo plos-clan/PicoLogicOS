@@ -1,7 +1,16 @@
-build:gcc   --action_env=CC_TYPE=gcc
-build:clang --action_env=CC_TYPE=clang
+# build --action_env=CC
+# build --action_env=CXX
+# build --action_env=AR
+# build --action_env=LD
 
-build --action_env=CC=clang
-build --action_env=CXX=clang++
-build --action_env=AR=llvm-ar
-build --action_env=LD=lld
+# build:gcc   --client_env=CC_TYPE=gcc  \
+#             --action_env=CC=gcc       \
+#             --action_env=CXX=g++      \
+#             --action_env=AR=ar        \
+#             --action_env=LD=ld
+
+# build:clang --client_env=CC_TYPE=clang \
+#             --action_env=CC=clang      \
+#             --action_env=CXX=clang++   \
+#             --action_env=AR=llvm-ar    \
+#             --action_env=LD=ld.lld

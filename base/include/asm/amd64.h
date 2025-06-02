@@ -15,6 +15,9 @@ extern "C" {
 #include "amd64/reg.h"
 #include "amd64/syscall.h"
 #include "amd64/alias.h"
+#include "amd64/syscall-sysenter.ia32.h"
+#include "amd64/syscall-syscall.amd64.h"
+#include "amd64/syscall-int.ia32.h"
 #ifdef __cplusplus
 }
 #endif // __cplusplus

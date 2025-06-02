@@ -35,7 +35,7 @@ class BuildTree:
     if not os.path.exists(self.file): fatal(f'Internal error: build.py not found. file: {self.file}')
     for entry in os.listdir(path):
       entry = os.path.join(path, entry)
-      if os.path.isdir(entry):
+      if os.path.isdir(entry) and not os.path.islink(entry):
         self.scan(entry)
 
   def scan(self, path: str):
@@ -46,7 +46,7 @@ class BuildTree:
       return
     for entry in os.listdir(path):
       entry = os.path.join(path, entry)
-      if os.path.isdir(entry):
+      if os.path.isdir(entry) and not os.path.islink(entry):
         self.scan(entry)
 
   def copy_scope_dict(scope: dict) -> dict:

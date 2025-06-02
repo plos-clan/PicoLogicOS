@@ -4,7 +4,9 @@
 
 #include "00-include.h"
 
-#define fn auto
+#if !DO_NOT_OVERRIDE_COMMON_NAMES
+#  define fn auto
+#endif
 
 // 获取数组的长度
 #ifndef lengthof
@@ -35,28 +37,34 @@
 #define CONCAT_(a, b) a##b
 #define CONCAT(a, b)  CONCAT_(a, b)
 
-#if defined(__clang__)
-#  define assume(...) (__builtin_assume(__VA_ARGS__))
-#elif defined(__GNUC__)
-#  define assume(...) (__attribute__((__assume__(__VA_ARGS__))))
-#elif defined(_MSC_VER)
-#  define assume(...) (__assume(__VA_ARGS__))
-#else
-#  define assume(...) ((void)0)
+#if !DO_NOT_OVERRIDE_COMMON_NAMES
+#  if defined(__clang__)
+#    define assume(...) (__builtin_assume(__VA_ARGS__))
+#  elif defined(__GNUC__)
+#    define assume(...) (__attribute__((__assume__(__VA_ARGS__))))
+#  elif defined(_MSC_VER)
+#    define assume(...) (__assume(__VA_ARGS__))
+#  else
+#    define assume(...) ((void)0)
+#  endif
 #endif
 
-#define where(...) __attr(__assume__(__VA_ARGS__))
+#if !DO_NOT_OVERRIDE_COMMON_NAMES
+#  define where(...) __attr(__assume__(__VA_ARGS__))
+#endif
 
 // likely 和 unlikely 用于分支预测
 #define likely(expr)   (__builtin_expect(!!(expr), 1))
 #define unlikely(expr) (__builtin_expect(!!(expr), 0))
 
+// TODO 历史遗留问题
 #if STD_SAFE_API
 #  define __std_safe__(...) ((void)({__VA_ARGS__}))
 #else
 #  define __std_safe__(...) ((void)(0))
 #endif
 
+// TODO 历史遗留问题
 #if SAFE_API
 #  define __safe__(...) ((void)({__VA_ARGS__}))
 #else
@@ -92,17 +100,55 @@
     (typeof(size))_size_;                                                                          \
   })
 
+#if !DO_NOT_OVERRIDE_COMMON_NAMES
 // 如果循环不会被打断，则使用 infinite_loop
-#define infinite_loop while (true)
+#  define infinite_loop while (true)
 // 如果循环会被打断，则使用 loop
-#define loop          while (true)
+#  define loop          while (true)
+// 反正都是 while (true)
+#endif
 
-#define waitif(cond)                                                                               \
-  ((void)({                                                                                        \
-    while (cond) {}                                                                                \
-  }))
-
-#define waituntil(cond)                                                                            \
-  ((void)({                                                                                        \
-    while (!(cond)) {}                                                                             \
-  }))
+#if !DO_NOT_OVERRIDE_COMMON_NAMES
+// waitif:    如果满足条件，则等待直到条件不满足
+// waituntil: 如果不满足条件，则等待直到条件满足
+#  if __i386__ || __x86_64__
+#    define waitif(cond)                                                                           \
+      ((void)({                                                                                    \
+        while (cond) {                                                                             \
+          asm volatile("pause\n\t" ::: "memory");                                                  \
+        }                                                                                          \
+      }))
+#    define waituntil(cond)                                                                        \
+      ((void)({                                                                                    \
+        while (!(cond)) {                                                                          \
+          asm volatile("pause\n\t" ::: "memory");                                                  \
+        }                                                                                          \
+      }))
+#  elif __arm__ || __aarch64__
+#    define waitif(cond)                                                                           \
+      ((void)({                                                                                    \
+        while (cond) {                                                                             \
+          asm volatile("yield\n\t" ::: "memory");                                                  \
+        }                                                                                          \
+      }))
+#    define waituntil(cond)                                                                        \
+      ((void)({                                                                                    \
+        while (!(cond)) {                                                                          \
+          asm volatile("yield\n\t" ::: "memory");                                                  \
+        }                                                                                          \
+      }))
+#  elif __riscv
+#    define waitif(cond)                                                                           \
+      ((void)({                                                                                    \
+        while (cond) {                                                                             \
+          asm volatile("nop\n\t" ::: "memory");                                                    \
+        }                                                                                          \
+      }))
+#    define waituntil(cond)                                                                        \
+      ((void)({                                                                                    \
+        while (!(cond)) {                                                                          \
+          asm volatile("nop\n\t" ::: "memory");                                                    \
+        }                                                                                          \
+      }))
+#  endif
+#endif

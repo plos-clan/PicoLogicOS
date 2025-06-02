@@ -44,6 +44,10 @@ def init():
 
   init_build_globals()
   init_build_tree()
+
+  if len(sys.argv) > 1 and sys.argv[1] == '-':
+    exit()
+
   save_targets()
   export_compile_commands()
   print_build_tree()

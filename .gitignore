@@ -7,12 +7,24 @@ __pycache__
 
 compile_commands.json
 
+# Bazel 构建缓存
 /bazel-*
+/external
+
+# PLOS Build 构建缓存
+/build
+
+# 代码生成目录
+generated
 
 /deps
 
-/bin
-/build
-/lib
+# 二进制输出目录
+/bin/*
+!/bin/README.md
+
+# 资源文件
 /resources
+
+# 日志文件
 /init.log

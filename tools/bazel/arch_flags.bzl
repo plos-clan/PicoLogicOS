@@ -56,3 +56,8 @@ def arch_flags():
             "LDFLAGS": [],
         },
     }.items()}
+
+# --target=x86_64-unknown-elf -march=x86-64
+# --target=i686-unknown-elf -march=i386
+# --target=riscv64-unknown-elf -march=rv64imac -mabi=lp64
+# --target=aarch64-unknown-elf -march=armv8-a -mabi=aapcs-linux

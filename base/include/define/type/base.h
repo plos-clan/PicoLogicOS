@@ -11,8 +11,10 @@
 #  define auto __auto_type
 #endif
 
-#define var auto
-#define val const auto
+#if !DO_NOT_OVERRIDE_COMMON_NAMES
+#  define var auto
+#  define val const auto
+#endif
 
 #ifdef __cplusplus
 static val null = nullptr;
@@ -30,5 +32,7 @@ typedef int errno_t;
 typedef __INT64_TYPE__ time_t;
 
 #ifdef __cplusplus
-#  define lit constexpr
+#  if !DO_NOT_OVERRIDE_COMMON_NAMES
+#    define lit constexpr
+#  endif
 #endif

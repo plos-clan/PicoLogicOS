@@ -186,13 +186,6 @@ static void memory_init() {
   }
 }
 
-#define NORETURN    __attr(noreturn)
-#define RETURNTWICE __attr(return_twice)
-
-__attr(returns_nonnull) __attr(nonnull(1)) void *func(void *a) {
-  return null;
-}
-
 static void kernel_main() {
   asm_cli;
 
@@ -226,22 +219,6 @@ static void kernel_main() {
   print_pt();
 
   klog_number(pgmode.response->mode);
-
-  klog_number(INT_MAX + 2);
-  klog_number(INT_MIN - 2);
-  klog_number(INT_MAX * 2);
-
-  func(null);
-
-  __builtin_clz(0);
-
-  char aaa[1];
-  aaa[-1] = '\0';
-
-  klog_number(-INT_MIN);
-
-  int  n = -2;
-  char a[n];
 
   infinite_loop asm_hlt;
 }

@@ -6,7 +6,6 @@
 extern "C" {
 #endif // __cplusplus
 #include "define/plos-definitions.h"
-#include "define/asm.h"
 #include "define/config/alloc.h"
 #include "define/config/check.h"
 #include "define/config/data-structure.h"
