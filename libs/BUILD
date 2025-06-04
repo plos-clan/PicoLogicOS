@@ -1,6 +1,6 @@
 load("@rules_cc//cc:cc_binary.bzl", "cc_binary")
 load("@rules_cc//cc:cc_library.bzl", "cc_library")
-load("//tools/bazel:plos_build.bzl", "plos_binary", "plos_library")
+load("//tools/bazel:plos_build.bzl", "plos_library", "plos_rust_library")
 load("//tools/bazel:plos_flags.bzl", "get_default_flags")
 
 include_files = ["-include " + name for name in [
@@ -34,6 +34,12 @@ plos_library(
     ],
 )
 
+plos_rust_library(
+    name = "algorithm.rs",
+    srcdir = "src/algorithm",
+    visibility = ["//visibility:public"],
+)
+
 plos_library(
     name = "data-structure",
     srcdir = "src/data-structure",
@@ -46,6 +52,12 @@ plos_library(
         "//base:headers",
         "//libs:headers",
     ],
+)
+
+plos_rust_library(
+    name = "data-structure.rs",
+    srcdir = "src/data-structure",
+    visibility = ["//visibility:public"],
 )
 
 plos_library(

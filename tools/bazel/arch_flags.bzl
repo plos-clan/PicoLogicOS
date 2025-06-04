@@ -61,3 +61,31 @@ def arch_flags():
 # --target=i686-unknown-elf -march=i386
 # --target=riscv64-unknown-elf -march=rv64imac -mabi=lp64
 # --target=aarch64-unknown-elf -march=armv8-a -mabi=aapcs-linux
+
+def arch_flags_rust():
+    return {
+        "amd64": ["--target=x86_64-unknown-elf"],
+        "ia32": ["--target=i686-unknown-elf"],
+        "riscv64": ["--target=riscv64-unknown-elf"],
+        "arm64": ["--target=aarch64-unknown-elf"],
+    }
+
+def arch_flags_go():
+    return {
+        "amd64": {
+            "GOARCH": "amd64",
+            "GOOS": "linux",
+        },
+        "ia32": {
+            "GOARCH": "386",
+            "GOOS": "linux",
+        },
+        "riscv64": {
+            "GOARCH": "riscv64",
+            "GOOS": "linux",
+        },
+        "arm64": {
+            "GOARCH": "arm64",
+            "GOOS": "linux",
+        },
+    }
