@@ -15,7 +15,7 @@ linkflags = get_default_flags("plos")["linkflags"]
 
 cc_library(
     name = "headers",
-    hdrs = glob(["include/**/*"]),
+    hdrs = ["include/kmman.h"] + glob(["include/kmman/**/*"]),
     includes = ["include"],
     visibility = ["//visibility:public"],
 )

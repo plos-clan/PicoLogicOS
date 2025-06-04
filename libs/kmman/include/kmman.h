@@ -1,5 +1,6 @@
 #pragma once
 #include <base.h>
+#include <platform.h>
 
 //| ============================================================================================================== |
 //| Copyright (c) 2025 plos-clan                                                                                   |
@@ -58,12 +59,13 @@ struct kmman_pinfo_list {
 
 <<<<< <<<<< <<<<< <<<<< <<<<< <<<<< <<<<< <<<<< <<<<< <<<<< */
 
-typedef struct kmman        kmman;
-typedef struct kmman_percpu kmman_percpu;
+typedef struct kmman         kmman;
+typedef struct kmman_percpu  kmman_percpu;
+typedef struct kmman_pertask kmman_pertask;
 
 // +++++ 注意下面的核心 ID 和 CPU 核心的实际硬件 ID 不同 +++++ //
 
-struct kmman {
+struct __ALIGN__(64) kmman {
   spin_t                lock;            // 全局锁
   i32                   next_core_id;    // 下一个 CPU 核心 ID (0 - 255)
   atomic volatile usize total_pages;     // 仅数据统计用 (不加锁)
@@ -74,13 +76,17 @@ struct kmman {
   kmman_pinfo_list     *pinfo_alloclist; // 已分配页面列表
 };
 
-struct kmman_percpu {
+struct __ALIGN__(64) kmman_percpu {
   spin_t                lock;            // 核心锁
   i32                   coreid;          // CPU 核心 ID (0 - 255)
   atomic volatile usize owned_pages;     // 仅数据统计用 (不加锁)
   kmman_percpu         *next_lmm;        // 下一个 CPU 核心的 kmman_percpu (链表)
   kmman_pinfo_list     *pinfo_freelist;  // 空闲页面列表
   kmman_pinfo_list     *pinfo_alloclist; // 已分配页面列表
+};
+
+struct __ALIGN__(64) kmman_pertask {
+  //
 };
 
 // 从全局内存分配器中分配内存
@@ -125,54 +131,129 @@ bool kmman_init_percpu(kmman *gmm, kmman_percpu *lmm);
  *\note 如果内存管理器初始化后未添加可用页面就添加不可用页面，会导致添加失败
  *
  *\param gmm      全局内存管理器
- *\param addr     物理地址
+ *\param paddr    物理地址
+ *\param vaddr    虚拟地址
  *\param npages   页面数
  *\param initial_rc 初始引用计数
  *\return 是否成功
  */
-bool kmman_addpage(kmman *gmm, usize addr, usize npages, usize initial_rc);
+bool kmman_addpage(kmman *gmm, usize paddr, usize vaddr, usize npages, usize initial_rc);
 
 /**
  *\brief 内核内存分配函数 (适用于分配小于 16K 的内存，强制要求)
  *
- *\param gmm      param
- *\param lmm      param
- *\param size     param
- *\return value
+ *\param gmm      全局内存管理器
+ *\param lmm      核心本地内存管理器
+ *\param size     分配内存大小
+ *\return 分配的内存地址 (如果分配失败则返回 -1)
  */
 isize kmman_malloc(kmman *gmm, kmman_percpu *lmm, usize size);
 
+/**
+ *\brief 内核内存释放函数 (必须是 kmman_malloc 函数分配的内存)
+ *
+ *\param gmm      全局内存管理器
+ *\param lmm      核心本地内存管理器
+ *\param addr     释放的内存地址
+ */
 void kmman_mfree(kmman *gmm, kmman_percpu *lmm, usize addr);
 
+/**
+ *\brief 内核物理页分配函数 (适用于分配大于 16K 的内存，但不强制)
+ *
+ *\param gmm      全局内存管理器
+ *\param lmm      核心本地内存管理器
+ *\param npages   分配页面数
+ *\return 分配的内存地址 (如果分配失败则返回 -1)
+ */
 isize kmman_palloc(kmman *gmm, kmman_percpu *lmm, usize npages);
 
+/**
+ *\brief 内核物理页释放函数 (必须是 kmman_palloc 函数分配的内存)
+ *
+ *\param gmm      全局内存管理器
+ *\param lmm      核心本地内存管理器
+ *\param addr     释放的物理地址
+ *\param npages   释放的页面数
+ */
 void kmman_pfree(kmman *gmm, kmman_percpu *lmm, usize addr, usize npages);
 
+/**
+ *\brief 内核内存引用计数增加函数
+ *
+ *\param gmm      全局内存管理器
+ *\param lmm      核心本地内存管理器
+ *\param addr     虚拟地址
+ */
 void kmman_pref(kmman *gmm, kmman_percpu *lmm, usize addr);
 
+/**
+ *\brief 内核内存引用计数减少函数
+ *\note 如果引用计数为 0 则释放内存
+ *
+ *\param gmm      全局内存管理器
+ *\param lmm      核心本地内存管理器
+ *\param addr     虚拟地址
+ */
 void kmman_punref(kmman *gmm, kmman_percpu *lmm, usize addr);
 
-/* >>>>> >>>>> >>>>> >>>>> >>>>> >>>>> >>>>> >>>>> >>>>> >>>>>
-
-<<<<< <<<<< <<<<< <<<<< <<<<< <<<<< <<<<< <<<<< <<<<< <<<<< */
+/**
+ *\brief 内核内存分配和映射函数
+ *\note 分配出的内存可能有脏数据
+ *
+ *\param gmm      全局内存管理器
+ *\param lmm      核心本地内存管理器
+ *\param tmm      任务本地内存管理器
+ *\param addr     虚拟地址
+ *\param npages   页面数
+ *\return 分配的虚拟地址 (如果分配失败则返回 -1)
+ */
+isize kmman_alloc_and_map(kmman *gmm, kmman_percpu *lmm, kmman_pertask *tmm, usize addr,
+                          usize npages);
 
 /**
- *\brief 用户提供的物理地址转换为内核虚拟地址函数
+ *\brief 内核内存取消映射和释放函数 (必须是 kmman_alloc_and_map 函数分配的内存)
+ *\note 注意这边 free 并不是直接释放，而是将引用计数减 1，如果引用计数为 0 则释放内存
  *
- *\param paddr    物理地址
- *\return 虚拟地址
+ *\param gmm      全局内存管理器
+ *\param lmm      核心本地内存管理器
+ *\param tmm      任务本地内存管理器
+ *\param addr     虚拟地址
+ *\param npages   页面数
  */
-VAddr _plos_kmman_phys2virt(PAddr paddr);
+void kmman_unmap_and_free(kmman *gmm, kmman_percpu *lmm, kmman_pertask *tmm, usize addr,
+                          usize npages);
 
 /**
- *\brief 内核虚拟地址转换为物理地址函数
+ *\brief 内核内存写时复制函数 (Copy-On-Write)
  *
- *\param vaddr    虚拟地址
- *\return 物理地址
+ *\param gmm      全局内存管理器
+ *\param lmm      核心本地内存管理器
+ *\param tmm      任务本地内存管理器
+ *\param addr     虚拟地址
+ *\param npages   页面数
+ *\return 新的虚拟地址 (如果分配失败则返回 -1)
  */
-PAddr _plos_kmman_virt2phys(VAddr vaddr);
+isize kmman_mkcow(kmman *gmm, kmman_percpu *lmm, kmman_pertask *tmm, usize addr, usize npages);
+
+/**
+ *\brief 内核内存写时复制函数 (Copy-On-Write)
+ *
+ *\param gmm      全局内存管理器
+ *\param lmm      核心本地内存管理器
+ *\param tmm1     任务1本地内存管理器
+ *\param tmm2     任务2本地内存管理器
+ *\param addr1    虚拟地址1
+ *\param addr2    虚拟地址2
+ *\param npages   页面数
+ *\return 新的虚拟地址 (如果分配失败则返回 -1)
+ */
+isize kmman_mkcow2(kmman *gmm, kmman_percpu *lmm, kmman_pertask *tmm, usize addr1, usize addr2,
+                   usize npages);
 
 /* >>>>> >>>>> >>>>> >>>>> >>>>> >>>>> >>>>> >>>>> >>>>> >>>>>
+
+* 内核C库风格的内存管理函数 *
 
 <<<<< <<<<< <<<<< <<<<< <<<<< <<<<< <<<<< <<<<< <<<<< <<<<< */
 
