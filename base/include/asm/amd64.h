@@ -5,6 +5,7 @@
 #ifdef __cplusplus
 extern "C" {
 #endif // __cplusplus
+#include "amd64/alias.h"
 #include "amd64/asm.h"
 #include "amd64/cpuid.h"
 #include "amd64/cr.h"
@@ -13,11 +14,10 @@ extern "C" {
 #include "amd64/mem.h"
 #include "amd64/msr.h"
 #include "amd64/reg.h"
-#include "amd64/syscall.h"
-#include "amd64/alias.h"
-#include "amd64/syscall-sysenter.ia32.h"
-#include "amd64/syscall-syscall.amd64.h"
 #include "amd64/syscall-int.ia32.h"
+#include "amd64/syscall-syscall.amd64.h"
+#include "amd64/syscall-sysenter.ia32.h"
+#include "amd64/syscall.h"
 #ifdef __cplusplus
 }
 #endif // __cplusplus

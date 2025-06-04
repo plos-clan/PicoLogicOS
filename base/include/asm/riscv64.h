@@ -5,8 +5,8 @@
 #ifdef __cplusplus
 extern "C" {
 #endif // __cplusplus
-#include "riscv64/asm.h"
 #include "riscv64/alias.h"
+#include "riscv64/asm.h"
 #ifdef __cplusplus
 }
 #endif // __cplusplus

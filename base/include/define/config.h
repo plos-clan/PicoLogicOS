@@ -9,10 +9,10 @@ extern "C" {
 #include "config/check.h"
 #include "config/data-structure.h"
 #include "config/log.h"
-#include "config/string-format.h"
-#include "config/undef.h"
 #include "config/plos.h"
 #include "config/plui.h"
+#include "config/string-format.h"
+#include "config/undef.h"
 #ifdef __cplusplus
 }
 #endif // __cplusplus

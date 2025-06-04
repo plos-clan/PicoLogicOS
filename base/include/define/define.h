@@ -7,15 +7,15 @@ extern "C" {
 #endif // __cplusplus
 #include "define/00-include.h"
 #include "define/assert.h"
+#include "define/attribute.h"
+#include "define/base.h"
+#include "define/int.h"
 #include "define/logging.h"
 #include "define/magic.h"
 #include "define/mem.h"
+#include "define/new.h"
 #include "define/rc.h"
 #include "define/va.h"
-#include "define/new.h"
-#include "define/base.h"
-#include "define/attribute.h"
-#include "define/int.h"
 #ifdef __cplusplus
 }
 #endif // __cplusplus

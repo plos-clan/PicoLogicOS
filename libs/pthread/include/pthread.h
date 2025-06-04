@@ -5,10 +5,10 @@
 #ifdef __cplusplus
 extern "C" {
 #endif // __cplusplus
-#include "pthread/thread.h"
-#include "pthread/mutex.h"
 #include "pthread/cond.h"
+#include "pthread/mutex.h"
 #include "pthread/rwlock.h"
+#include "pthread/thread.h"
 #ifdef __cplusplus
 }
 #endif // __cplusplus

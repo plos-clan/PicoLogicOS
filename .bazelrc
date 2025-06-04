@@ -14,3 +14,6 @@
 #             --action_env=CXX=clang++   \
 #             --action_env=AR=llvm-ar    \
 #             --action_env=LD=ld.lld
+
+build --spawn_strategy=worker,linux-sandbox
+# build --sandbox_add_mount=/usr/lib/llvm-19:/usr/lib/llvm-19:ro

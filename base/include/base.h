@@ -19,8 +19,6 @@ extern "C" {
 #include "base/math/math.h"
 #include "base/math/sin.h"
 #include "base/math/sqrt.h"
-#include "base/math/complex/base.h"
-#include "base/math/complex/complex.h"
 #include "base/stdio/print.h"
 #include "base/stdlib/alloc.h"
 #include "base/stdlib/atox.h"
@@ -28,12 +26,14 @@ extern "C" {
 #include "base/stdlib/rand.h"
 #include "base/stdlib/xtoa.h"
 #include "base/string/alloc.h"
+#include "base/string/charset.h"
 #include "base/string/mem.h"
 #include "base/string/path.h"
 #include "base/string/str.h"
-#include "base/string/charset.h"
 #include "base/thread/rwlock.h"
 #include "base/thread/spin.h"
+#include "base/math/complex/base.h"
+#include "base/math/complex/complex.h"
 #ifdef __cplusplus
 }
 #endif // __cplusplus

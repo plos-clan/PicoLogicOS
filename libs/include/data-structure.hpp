@@ -4,9 +4,9 @@
 #pragma once
 #ifdef __cplusplus
 #include "../data-structure/base.hpp"
+#include "../data-structure/ordered-set/array.hpp"
+#include "../data-structure/ordered-set/bitmap.hpp"
 #include "../data-structure/ordered-set/list.hpp"
 #include "../data-structure/ordered-set/queue.hpp"
-#include "../data-structure/ordered-set/bitmap.hpp"
-#include "../data-structure/ordered-set/array.hpp"
 #include "../data-structure/sorted-map/rbtree.hpp"
 #endif // __cplusplus

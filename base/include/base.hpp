@@ -13,11 +13,11 @@
 #include "base/math/bits.hpp"
 #include "base/math/exp-log.hpp"
 #include "base/math/math.hpp"
+#include "base/math/min-max.hpp"
 #include "base/math/sin.hpp"
 #include "base/math/sqrt.hpp"
 #include "base/math/sum.hpp"
-#include "base/math/min-max.hpp"
+#include "base/thread/spin.hpp"
 #include "base/math/complex/base.hpp"
 #include "base/math/complex/complex.hpp"
-#include "base/thread/spin.hpp"
 #endif // __cplusplus

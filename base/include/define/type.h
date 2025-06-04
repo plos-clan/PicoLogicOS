@@ -6,22 +6,22 @@
 extern "C" {
 #endif // __cplusplus
 #include "type/00-include.h"
+#include "type/addr.h"
 #include "type/atom-func.h"
 #include "type/atom-lockfree.h"
 #include "type/atom-type.h"
 #include "type/atom.h"
 #include "type/base.h"
+#include "type/bitint.h"
 #include "type/bool.h"
 #include "type/char.h"
+#include "type/complex-bitint.h"
 #include "type/complex.h"
 #include "type/ex.h"
 #include "type/func.h"
 #include "type/int.h"
 #include "type/limit.h"
 #include "type/vector.h"
-#include "type/bitint.h"
-#include "type/complex-bitint.h"
-#include "type/addr.h"
 #ifdef __cplusplus
 }
 #endif // __cplusplus

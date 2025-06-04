@@ -6,6 +6,7 @@
 extern "C" {
 #endif // __cplusplus
 #include "pci/class.h"
+#include "pci/enum.h"
 #ifdef __cplusplus
 }
 #endif // __cplusplus

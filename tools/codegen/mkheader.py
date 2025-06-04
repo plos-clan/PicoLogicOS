@@ -18,6 +18,8 @@ def mkheader(name: str, srcdir: str = None, workdir: str = None, recurse: bool =
 
   h_files = get_files_with_extensions(srcdir, 'h', recurse)
   hpp_files = get_files_with_extensions(srcdir, 'hpp', recurse)
+  h_files = sorted(h_files, key=lambda f: (f.count(os.sep), f))
+  hpp_files = sorted(hpp_files, key=lambda f: (f.count(os.sep), f))
 
   if recurse:
     h_files = [f for f in h_files if not c_file_has_flag('include-generated', f)]

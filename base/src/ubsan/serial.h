@@ -1,4 +1,5 @@
 #pragma once
+#include <asm.h>
 
 #define PORT 0x3f8 // COM1
 

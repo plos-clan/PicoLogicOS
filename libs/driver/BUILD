@@ -56,5 +56,7 @@ plos_library(
     visibility = ["//visibility:public"],
     deps = [
         ":headers",
+        ":nvme#",
+        ":pci#",
     ],
 )
