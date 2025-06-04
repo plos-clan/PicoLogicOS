@@ -1,4 +1,5 @@
 #pragma once
+#include <asm.h>
 #include <base/thread/spin.h>
 
 static spin_t lock;

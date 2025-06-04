@@ -13,6 +13,8 @@
 //| OR CONDITIONS OF ANY KIND, either express or implied. See the licenses for details.                            |
 //| ============================================================================================================== |
 
+#include <asm.h>
+
 #include "serial.h"
 
 #include "fmt.h"

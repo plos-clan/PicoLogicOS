@@ -5,10 +5,7 @@
 #ifdef __cplusplus
 extern "C" {
 #endif // __cplusplus
-#include "kernel/00-include.h"
-#include "kernel/cpu.h"
-#include "kernel/thread.h"
-#include "kernel/typedefs.h"
+#include "amd64/paging.h"
 #ifdef __cplusplus
 }
 #endif // __cplusplus
