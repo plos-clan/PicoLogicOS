@@ -36,6 +36,7 @@ plos_binary(
         "//base:base#",
         "//kernel:headers",
         "//libs:headers",
+        "//libs/kmman:kmman#",
     ],
 )
 

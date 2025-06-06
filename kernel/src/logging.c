@@ -106,3 +106,32 @@ void klog(cstr _rest fmt, ...) {
 // void kenel_debugger_tick() {
 //   // Debug is off.
 // }
+
+void klog_number(u64 n) {
+  char  buf[32];
+  char *p = buf + sizeof(buf);
+  *--p    = '\0';
+  *--p    = '\n';
+  do {
+    *--p  = '0' + (n % 10);
+    n    /= 10;
+  } while (n != 0);
+  klog_raw(p);
+}
+
+void klog_number16(u64 n) {
+  char  buf[32];
+  char *p = buf + sizeof(buf);
+  *--p    = '\0';
+  *--p    = '\n';
+  do {
+    u64 r = n % 16;
+    if (r < 10) {
+      *--p = '0' + r;
+    } else {
+      *--p = 'a' + (r - 10);
+    }
+    n /= 16;
+  } while (n != 0);
+  klog_raw(p);
+}

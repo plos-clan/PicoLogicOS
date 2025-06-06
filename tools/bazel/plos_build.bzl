@@ -2,8 +2,7 @@ load("@rules_cc//cc:cc_binary.bzl", "cc_binary")
 load("@rules_cc//cc:cc_library.bzl", "cc_library")
 load("@rules_rust//rust:rust_binary.bzl", "rust_binary")
 load("@rules_rust//rust:rust_library.bzl", "rust_library")
-load("//tools/bazel:arch_flags.bzl", "arch_flags")
-load("//tools/bazel:compiler_env.bzl", "compiler_env")
+load("//tools/bazel:arch_flags.bzl", "arch_flags", "arch_flags_go", "arch_flags_rust")
 
 def _dep_name(name, arch, linktype):
     if name.endswith("#"):

@@ -90,35 +90,8 @@ USED SECTION(".plos_loader_info") static const volatile struct {
 } info;
 
 void klog_raw(cstr s);
-
-void klog_number(u64 n) {
-  char  buf[32];
-  char *p = buf + sizeof(buf);
-  *--p    = '\0';
-  *--p    = '\n';
-  do {
-    *--p  = '0' + (n % 10);
-    n    /= 10;
-  } while (n != 0);
-  klog_raw(p);
-}
-
-void klog_number16(u64 n) {
-  char  buf[32];
-  char *p = buf + sizeof(buf);
-  *--p    = '\0';
-  *--p    = '\n';
-  do {
-    u64 r = n % 16;
-    if (r < 10) {
-      *--p = '0' + r;
-    } else {
-      *--p = 'a' + (r - 10);
-    }
-    n /= 16;
-  } while (n != 0);
-  klog_raw(p);
-}
+void klog_number(u64 n);
+void klog_number16(u64 n);
 
 void print_pt() {
   val pml4 = (PML4E *)(asm_get_cr3() + hhdm.response->offset);
@@ -139,10 +112,10 @@ void print_pt() {
  |                    |
  | 0xffffc00000000000 |
  | 0xffffbfffffffffff |
- |                    |  <=  物理内存直接映射 (读写)
- | 0xffffa00000000000 |
- | 0xffff9fffffffffff |
- |                    |  <=  物理内存直接映射 (只读)
+ |                    |  <=  物理内存直接映射
+ |                    |
+ |                    |
+ |                    |
  | 0xffff800000000000 |
  | 0x00007fffffffffff |
  |                    |
@@ -156,6 +129,9 @@ void print_pt() {
  |                    |
  |                    |
  | 0x0000000000000000 |
+
+
+最大不超过 64 TiB
 
 <<<<< <<<<< <<<<< <<<<< <<<<< <<<<< <<<<< <<<<< <<<<< <<<<< */
 

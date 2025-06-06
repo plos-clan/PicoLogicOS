@@ -15,5 +15,4 @@
 #             --action_env=AR=llvm-ar    \
 #             --action_env=LD=ld.lld
 
-build --spawn_strategy=worker,linux-sandbox
 build --crosstool_top=//tools/bazel/wrap:clang

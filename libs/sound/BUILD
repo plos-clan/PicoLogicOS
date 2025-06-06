@@ -5,6 +5,8 @@ load("//tools/bazel:plos_flags.bzl", "get_default_flags")
 
 include_files = ["-include " + name for name in [
     "define.h",
+    "asm.h",
+    "base.h",
 ]]
 
 cflags = get_default_flags("plos")["cflags"] + include_files
@@ -15,25 +17,23 @@ linkflags = get_default_flags("plos")["linkflags"]
 
 cc_library(
     name = "headers",
-    hdrs = ["include/kmman.h"] + glob(
-        ["include/kmman/**/*"],
-        allow_empty = True,
-    ),
+    hdrs = glob(["include/**/*"]),
     includes = ["include"],
     visibility = ["//visibility:public"],
+    deps = [
+        "//base:headers",
+    ],
 )
 
 plos_library(
-    name = "kmman",
-    srcdir = "src",
+    name = "vsound",
+    srcdir = "vsound",
     copts = cflags,
     cxxopts = cxxflags,
     linkopts = linkflags,
     visibility = ["//visibility:public"],
     deps = [
-        "//base:base#",
+        ":headers",
         "//base:headers",
-        "//libs:headers",
-        "//libs/kmman:headers",
     ],
 )
